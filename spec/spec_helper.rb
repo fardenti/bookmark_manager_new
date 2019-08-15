@@ -1,5 +1,5 @@
 ENV['RACK_ENV'] = 'test'
-ENV['database'] = 'bookmark_manager_test'
+ENV['ENVIRONMENT'] = 'test'
 require_relative '../app.rb'
 require_relative './features/setup_test_database'
 require 'capybara'

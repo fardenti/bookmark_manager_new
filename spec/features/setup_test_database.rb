@@ -1,12 +1,7 @@
 require 'pg'
 
 def setup_test_database
-  conn = PG.connect(dbname: ENV['database'])
-
-  conn.exec('TRUNCATE bookmarks')
-
-
-
-  
-  conn.close
+  connection = PG.connect(dbname: "bookmark_manager_test")
+  connection.exec('TRUNCATE bookmarks')
+  connection.close
 end

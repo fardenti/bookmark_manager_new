@@ -4,25 +4,26 @@ class Bookmark
 
   def initialize
     @bookmark = bookmark
-
   end
 
-  def self.all(bridge=PG)
-    db = ENV['database']
-    conn = bridge.connect(dbname: db)
-    result = conn.exec("SELECT * FROM bookmarks;")
-    result.map{|bookmark| bookmark['url']}
+  def self.all
+    if ENV['ENVIRONMENT'] == 'test'
+      connection = PG.connect(dbname: 'bookmark_manager_test')
+    else
+      connection = PG.connect(dbname: 'bookmark_manager')
+    end
+    result = connection.exec("SELECT * FROM bookmarks")
+    result.map { |bookmark| bookmark['title'] }
   end
 
-  def self.create(bridge=PG, url)
-    db = ENV['database']
-    conn = bridge.connect(dbname: db)
-    sql = "INSERT INTO bookmarks (url) VALUES('" + url + "');"
-    result = conn.exec(sql)
+  def self.create(bridge=PG, url, title)
+    if ENV['ENVIRONMENT'] == 'test'
+      connection = PG.connect(dbname: 'bookmark_manager_test')
+    else
+      connection = PG.connect(dbname: 'bookmark_manager')
+    end
+    sql = "INSERT INTO bookmarks (url, title) VALUES('#{url}', '#{title}');"
+    result = connection.exec(sql)
   end
-
-
-
-
 
 end

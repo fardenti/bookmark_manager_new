@@ -1,32 +1,28 @@
 #
 require 'bookmark'
 describe Bookmark do
-  let(:pg_double){double("PG")}
-  let(:connection_double){double("connection")}
-
-  before(:each) do
-    rslt = [
-      {'url' => 'http://www.makersacademy.com'},
-      {'url' => 'http://www.google.com'},
-      {'url' => 'http://www.twitter.com'}
-    ]
-
-    allow(pg_double).to receive(:connect).and_return(connection_double)
-    allow(connection_double).to receive(:exec).and_return(rslt)
-  end
-
   describe '#all' do
-    it "- connect the psql and return a list of bookmarks" do
-      target = ['http://www.makersacademy.com', 'http://www.google.com', 'http://www.twitter.com']
-      expect(Bookmark.all(pg_double)).to eq(target)
+    it "returns a list of bookmarks" do
+      connection = PG.connect(dbname: 'bookmark_manager_test')
+      # Add the test data
+    connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.lwlies.com');")
+    connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.youtube.com');")
+    connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.google.com');")
+
+    bookmarks = Bookmark.all
+
+    expect(bookmarks).to include('http://www.lwlies.com')
+    expect(bookmarks).to include('http://www.youtube.com')
+    expect(bookmarks).to include('http://www.google.com')
     end
   end
 
   describe '#create' do
-    it '- add a new url to database' do
-      expect(pg_double).to receive(:connect)
-      expect(connection_double).to receive(:exec).with("INSERT INTO bookmarks (url) VALUES('http://www.google.com');")
-      Bookmark.create(pg_double, 'http://www.google.com')
+    it 'add a new url and title to database' do
+      Bookmark.create('http://www.facebook.com', 'facebook')
+      bookmarks = Bookmark.all
+      expect(bookmarks).to include('http://www.facebook.com')
     end
   end
+
 end
