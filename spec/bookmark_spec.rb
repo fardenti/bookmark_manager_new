@@ -5,23 +5,22 @@ describe Bookmark do
     it "returns a list of bookmarks" do
     connection = PG.connect(dbname: 'bookmark_manager_test')
       # Add the test data
-    connection.exec("INSERT INTO bookmarks (title, url) VALUES ('lwlies', 'http://www.lwlies.com');")
-    connection.exec("INSERT INTO bookmarks (title, url) VALUES ('youtube', 'http://www.youtube.com');")
-    connection.exec("INSERT INTO bookmarks (title, url) VALUES ('google', 'http://www.google.com');")
+
+    Bookmark.create('google', 'http://www.google.com')
 
     bookmarks = Bookmark.all
 
-    expect(bookmarks).to include('lwlies')
-    expect(bookmarks).to include('youtube')
-    expect(bookmarks).to include('google')
+    expect(bookmarks.first.title).to eq('google')
+    expect(bookmarks.first.url).to eq 'http://www.google.com'
     end
   end
 
   describe '#create' do
     it 'add a new url and title to database' do
+      connection = PG.connect(dbname: 'bookmark_manager_test')
       Bookmark.create('facebook', 'http://www.facebook.com')
       bookmarks = Bookmark.all
-      expect(bookmarks).to include('facebook')
+      expect(bookmarks.first.title).to eq('facebook')
     end
   end
 

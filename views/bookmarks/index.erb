@@ -1,15 +1,24 @@
-<h2>This is some test</h2>
+<h2>Bookmark Manager</h2>
 <div>
   <ul>
-    <%@bookmarks.each do |element|%>
-      <li><%=element%></li>
+    <%@bookmarks.each do |bookmark|%>
+        <li class="bookmark" id="bookmark-<%= bookmark.id %>">
+      <a href="<%= bookmark.url %>" target="_blank">
+        <%= bookmark.title %>
+      </a>
+        <form action="/bookmarks/<%= bookmark.id %>" method="post">
+        <input type='hidden' name='_method' value='DELETE'/>
+        <input type="submit" value="Delete" />
+      </form>
+    </li>
     <%end%>
     </ul>
 </div>
 
 
 <form action="/bookmarks/new" method="post">
-    <input type="text" name="title">
-    <input type="text" name="url">
+    <input type="text" name="title" placeholder="Title">
+    <input type="text" name="url" placeholder="URL">
     <input type="submit" value="Add">
 </form>
+

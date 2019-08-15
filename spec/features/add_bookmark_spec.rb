@@ -2,11 +2,9 @@ require 'pg'
 require 'spec_helper'
 
 feature 'Add url' do
-  scenario 'can add new url' do
-    visit('/bookmarks')
-    fill_in('url', with: 'http://www.google.com')
-    fill_in('title', with: 'google')
-    click_button 'Add'
-    expect(page).to have_content("google")
+  scenario 'can add new url and title, title shows on page' do
+      Bookmark.create('Makers Academy', 'http://www.makersacademy.com')
+      visit('/bookmarks')
+      expect(page).to have_link('Makers Academy', href: 'http://www.makersacademy.com')
    end
 end

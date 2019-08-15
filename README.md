@@ -9,6 +9,10 @@ I would like to see a list of bookmarks with urls
 As a User
 So that I can have my urls in a bookmark
 I would like to be able to add a new bookmark
+
+As a user
+So I can remove my bookmark from Bookmark Manager
+I want to delete a bookmark
 ```
 
 1. Connect to psql
