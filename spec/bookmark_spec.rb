@@ -1,6 +1,11 @@
 #
 require 'bookmark'
+require 'comment'
+require 'database_helper'
+
 describe Bookmark do
+  let(:comment_class) { double(:comment_class) }
+  
   describe '#all' do
     it "returns a list of bookmarks" do
     connection = PG.connect(dbname: 'bookmark_manager_test')
@@ -33,7 +38,8 @@ describe Bookmark do
 
   describe '#update' do
     it 'can update the bookmark' do
-      bookmark = Bookmark.create('facebook', 'www.facebook.com')
+      bookmark = Bookmark.create('facebook', 'http://www.facebook.com')
+      p bookmark
       updated_bookmark = Bookmark.update(id: bookmark.id,title: 'Facebook', url: 'http://www.facebook.com')
       expect(updated_bookmark).to be_a Bookmark
       expect(updated_bookmark.id).to eq bookmark.id
@@ -59,4 +65,12 @@ describe Bookmark do
       expect(Bookmark.all).not_to include('Google')
     end
   end
+
+  describe '#comments' do
+  it 'calls .where on the Comment class' do
+    bookmark = Bookmark.create('Makers Academy', 'http://www.makersacademy.com')
+    expect(comment_class).to receive(:where).with(bookmark_id: bookmark.id)
+    bookmark.comments(comment_class)
+  end
+end
 end

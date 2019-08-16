@@ -3,9 +3,9 @@ require 'spec_helper'
 
 feature 'Update url' do
   scenario 'can update data from bookmark' do
-    bookmark = Bookmark.create('Facebook', 'http//:www.facebook.com')
+    bookmark = Bookmark.create('Facebook', 'http://www.facebook.com')
     visit('/bookmarks')
-    expect(page).to have_link('Facebook', href: 'http//:www.facebook.com')
+    expect(page).to have_link('Facebook', href: 'http://www.facebook.com')
     first('.bookmark').click_button 'Edit'
     expect(current_path).to eq "/bookmarks/#{bookmark.id}/edit"
 
