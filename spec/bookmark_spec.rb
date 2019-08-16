@@ -52,4 +52,11 @@ describe Bookmark do
       expect(result.url).to eq 'http://www.makersacademy.com'
     end
   end
+
+  describe 'validation' do
+    it 'will not allow the user to add a bookmark with invalid URL' do
+      Bookmark.create('Google', 'google.com')
+      expect(Bookmark.all).not_to include('Google')
+    end
+  end
 end
