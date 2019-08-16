@@ -13,6 +13,10 @@ I would like to be able to add a new bookmark
 As a user
 So I can remove my bookmark from Bookmark Manager
 I want to delete a bookmark
+
+As a user
+So I can fix an incorrect bookmark from Bookmark Manager
+I want to update a bookmark
 ```
 
 1. Connect to psql
