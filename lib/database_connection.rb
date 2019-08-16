@@ -1,9 +1,16 @@
+require 'PG'
 class DatabaseConnection
 
-    def setup(dt_name)
-    end
+  def self.setup(dbname)
+     @connection =  PG.connect(dbname: dbname)
+  end
+  
+  def self.connection
+    @connection
+  end
 
-    def query(sql_query)
-    end
-
+  def self.query(sql)
+    @connection.exec(sql)
+  end
+    
 end
